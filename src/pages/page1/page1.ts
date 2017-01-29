@@ -15,9 +15,9 @@ export class Page1 {
 
   }
 
-  doeSuzeOpScherm() {
+  doToast(message) {
     let toast = this.toastCtrl.create({
-      message: 'SUZE OP HET SCHERM!!!!',
+      message: message,
       duration: 3000,
       position: 'middle'
     });

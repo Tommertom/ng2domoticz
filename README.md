@@ -5,8 +5,11 @@ Including API calls to alter some aspects of the server (not all).
 
 Wrapped in Ionic 2 demo app (sidemenu).
 
+## Todo
+* initial service needs to be added (nothing there yet)
+
 ## Important!
-Use at own discretion, but if you have any suggestion, let me know.
+Use at own discretion, but if you have any suggestion, let me know. Provided under Apache2 License.
 
 ## Getting Started
 * Clone this repository: `git clone https://github.com/Tommertom/ng2domoticz.git`.
