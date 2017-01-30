@@ -14,26 +14,24 @@
 
   <ion-item>
     <ion-label>Domoticz server IP:</ion-label>
-    <ion-input type="text" [(ngModel)]="domoticzIP"></ion-input>
+    <ion-input type="text" [(ngModel)]="settings.server"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label>Domoticz port:</ion-label>
-    <ion-input type="text" [(ngModel)]="domoticzPort"></ion-input>
+    <ion-input type="text" [(ngModel)]="settings.port"></ion-input>
   </ion-item>
 
 </ion-list>
 
-<button ion-button (click)="startObserving()">Start observing</button>
-<button ion-button (click)="loadNumbers()">Load Numbers</button>
+<button ion-button (click)="startObserving()">Start observing devices</button>
 
 <ion-list>
-
-{{observable}}
-
-  ion-item *ngFor="let item of observable | async">
-    {{item}}
-  /ion-item>
+ 
+  <ion-item *ngFor="let item of deviceList ">
+    <h2>{{item.Name}}</h2>
+    <ion-note>{{item.Data}} </ion-note>
+  </ion-item>
 
 </ion-list>
 
