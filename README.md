@@ -24,6 +24,7 @@ Due to cross-origin restrictions, this actually won't work in a browser. So you 
 or upload in ionic view to see it working. 
 
 This demo is available in Ionic View under app ID `96ecbaf2`. Download Ionic View in your app store (android/iOS), register free 
-Ionic account (https://apps.ionic.io/signup) and enjoy.
+Ionic account (https://apps.ionic.io/signup) and enjoy. Assure you do a `Clear App Data` in Ionic View
+if you want to enjoy the latest committed version.
 
 
