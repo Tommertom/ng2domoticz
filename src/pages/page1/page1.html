@@ -25,12 +25,15 @@
 </ion-list>
 
 <button ion-button (click)="startObserving()">Start observing</button>
+<button ion-button (click)="loadNumbers()">Load Numbers</button>
 
 <ion-list>
 
-  <ion-item *ngFor="let item of observable | async">
+{{observable}}
+
+  ion-item *ngFor="let item of observable | async">
     {{item}}
-  </ion-item>
+  /ion-item>
 
 </ion-list>
 

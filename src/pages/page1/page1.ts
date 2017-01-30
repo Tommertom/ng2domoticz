@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import {BehaviorSubject} from "rxjs/Rx";
+import { BehaviorSubject } from "rxjs/Rx";
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
@@ -17,7 +17,7 @@ export class DomoticzService {
 
   private _settings: any;
   //	private _actions = [];
-  private numbers: BehaviorSubject<Array<number>> = new BehaviorSubject([]);
+  private numbers: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() { };
 
@@ -26,18 +26,21 @@ export class DomoticzService {
   }
 
   loadNumbers() {
-         setTimeout(() => {
-            this.numbers.next([42]);
-          }, 1000);
-    
-          setTimeout(() => {
-            this.numbers.next([43]);
-          }, 2000);
-    
-          setTimeout(() => {
-            this.numbers.complete();
-          }, 3000);
-  } 
+
+    console.log('load numbers');
+
+    setTimeout(() => {
+      this.numbers.next(42);
+    }, 1000);
+
+    setTimeout(() => {
+      this.numbers.next(43);
+    }, 2000);
+
+    setTimeout(() => {
+      this.numbers.complete();
+    }, 3000);
+  }
 }
 
 @Component({
@@ -48,7 +51,7 @@ export class Page1 {
 
   domoticzIP: string = "192.168.178.33";
   domoticzPort: string = "8080";
-  observable: Observable<Array<number>>;
+  observable: Observable<number>;
 
 
   constructor(
@@ -68,7 +71,9 @@ export class Page1 {
       error => console.log(error),
       () => console.log('Finished')
     );
+  }
 
+  loadNumbers() {
     this.domoticzService.loadNumbers();
   }
 
