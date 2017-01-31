@@ -13,11 +13,8 @@ export class Page2 {
 
   deviceList: Array<string> = [];
   deviceData: Object = {};
-  //  idxList: Array<number> = [];
 
   deviceSubscription: any;
-  //settings: DomoticzSettingsModel = defaultSettings;
-
 
   constructor(
     public navCtrl: NavController,
@@ -25,17 +22,8 @@ export class Page2 {
     private toastCtrl: ToastController
   ) { }
 
-
   ngOnInit() {
-    console.log('Page2 oninit');
-
     this.startObserving();
-  }
-
-  ngAfterViewInit() {
-    //console.log('Page2 afterviewinit');
-
-    
   }
 
   startObserving() {
@@ -45,7 +33,7 @@ export class Page2 {
     // if we already observed stuff, then undo the subscription
     if (this.deviceSubscription !== undefined) {
       this.deviceSubscription.unsubscribe();
-      console.log('unsub');
+      //console.log('unsub');
     }
 
     // and start observing again
@@ -65,6 +53,21 @@ export class Page2 {
       );
   }
 
+  isDimmable(device) {
+    return (device['HaveDimmer'] == true) && ( device['MaxDimLevel']!= 0)
+  }
+
+  canToggle(device){
+    return (device['SwitchType'] == 'On/Off');
+  }
+
+  canSetTemp(device) {
+    return (device['SubType'] == "SetPoint");
+  }
+
+  hasTemperature(device) {
+    return (typeof device['Temp'] != 'undefined')
+  }
 
   /**
    * Do a toast message.
