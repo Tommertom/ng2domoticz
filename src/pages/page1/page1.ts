@@ -40,6 +40,10 @@ export class Page1 {
     private toastCtrl: ToastController
   ) { }
 
+  ngOnInit() {
+    this.domoticzService.initDomoticzService(this.settings); // to avoid issues when going to Page2 without startObserving
+  }
+
   startObserving() {
     this.domoticzService.initDomoticzService(this.settings);
 

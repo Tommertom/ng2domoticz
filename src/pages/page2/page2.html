@@ -9,13 +9,15 @@
 <ion-content>
   <ion-card *ngFor="let idx of deviceList">
     {{ deviceData[idx].Name}} {{deviceData[idx].Name}}
+
+    {{ isDimmable(deviceData[idx]) }}
+    {{ canToggle(deviceData[idx]) }}
+    {{ hasTemperature(deviceData[idx]) }}
+    {{ canSetTemp(deviceData[idx]) }}
   </ion-card>
   <ion-card *ngIf="deviceList.length == 0">
     No devices found
-    {{isDimmable(deviceData[idx])}}
-{{canToggle(deviceData[idx])}}
-{{hasTemperature(deviceData[idx])}}
-{canSetTemp(deviceData[idx])}}
+
 
   </ion-card>
 </ion-content>
