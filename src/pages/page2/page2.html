@@ -14,6 +14,8 @@
     {{ canToggle(deviceData[idx]) }}
     {{ hasTemperature(deviceData[idx]) }}
     {{ canSetTemp(deviceData[idx]) }}
+
+    <button ion-button *ngIf="canToggle(deviceData[idx])">Let's toggle</button>
   </ion-card>
   <ion-card *ngIf="deviceList.length == 0">
     No devices found
