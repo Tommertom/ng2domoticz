@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-
-import { ToastController, NavController, NavParams } from 'ionic-angular';
-
-import { DomoticzTestService, DomoticzSettingsModel } from './../../providers/domoticz.provider';
+import { ToastController, NavController } from 'ionic-angular';
+import { DomoticzTestService } from './../../providers/domoticz.provider';
 
 
 @Component({
@@ -33,7 +31,6 @@ export class Page2 {
     // if we already observed stuff, then undo the subscription
     if (this.deviceSubscription !== undefined) {
       this.deviceSubscription.unsubscribe();
-      //console.log('unsub');
     }
 
     // and start observing again
@@ -61,17 +58,19 @@ export class Page2 {
     return (device['SwitchType'] == 'On/Off');
   }
 
+//http://192.168.178.33:8080/json.htm?type=command&param=switchlight&idx=34&switchcmd=Set%20Level&level=69
   canSetTemp(device) {
     return (device['SubType'] == "SetPoint");
-  }
-
-  hasTemperature(device) {
-    return (typeof device['Temp'] != 'undefined')
   }
 
   doToggle(idx) {
 //    console.log('Toggle', idx);
     this.domoticzService.toggleDevice(idx);
+  }
+
+  doLevelChange(event, idx) {
+    console.log('levelchange', event.value);
+    this.domoticzService.setDeviceDimLevel(idx, event.value);
   }
 
   /**

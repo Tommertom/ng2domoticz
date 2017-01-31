@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
 
-
-//import { DomoticzService } from '..\..\providers\domoticz.provider';
-import { Observer } from 'rxjs/Observer';
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { BehaviorSubject } from "rxjs/Rx";
+//import { Observer } from 'rxjs/Observer';
+//import { Injectable } from '@angular/core';
+//import { Http } from '@angular/http';
+//import { BehaviorSubject } from "rxjs/Rx";
 
 import { DomoticzTestService, DomoticzSettingsModel } from './../../providers/domoticz.provider';
 
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
+//import 'rxjs/add/operator/mergeMap';
+//import 'rxjs/add/operator/map';
 
 const defaultSettings = {
   server: '192.168.178.33',
@@ -61,17 +59,16 @@ export class Page1 {
       .subscribe(
       value => {
 
-        //console.log('value', value, typeof value['error']);
-
         // if the device is already found, then don't add it
         if (typeof value['error'] === 'undefined')
         { if (this.deviceList.indexOf(value['idx']) == -1) this.deviceList.push(value['idx']); }
-        
         // if an error is received, we kill the watcher and need to do something smart
         else {
           console.log('Error received', value);
           this.domoticzService.doneDomoticzService();
           this.deviceSubscription.unsubscribe();
+
+          this.doToast('There was an issue accessing Domoticz' + value.toString());
         }
 
         // and replace the data
