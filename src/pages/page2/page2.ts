@@ -69,6 +69,11 @@ export class Page2 {
     return (typeof device['Temp'] != 'undefined')
   }
 
+  doToggle(idx) {
+//    console.log('Toggle', idx);
+    this.domoticzService.toggleDevice(idx);
+  }
+
   /**
    * Do a toast message.
    * 

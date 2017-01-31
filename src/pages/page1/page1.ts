@@ -18,7 +18,7 @@ const defaultSettings = {
   server: '192.168.178.33',
   protocol: 'http://',
   port: '8080',
-  refreshdelay: 1000
+  refreshdelay: 5000
 };
 
 @Component({
@@ -61,16 +61,24 @@ export class Page1 {
       .subscribe(
       value => {
 
+        //console.log('value', value, typeof value['error']);
+
         // if the device is already found, then don't add it
-        if (this.deviceList.indexOf(value['idx']) == -1) this.deviceList.push(value['idx']);
+        if (typeof value['error'] === 'undefined')
+        { if (this.deviceList.indexOf(value['idx']) == -1) this.deviceList.push(value['idx']); }
+        
+        // if an error is received, we kill the watcher and need to do something smart
+        else {
+          console.log('Error received', value);
+          this.domoticzService.doneDomoticzService();
+          this.deviceSubscription.unsubscribe();
+        }
 
         // and replace the data
         this.deviceData[value['idx']] = value;
       },
 
-      error => console.log(error),
-      () => console.log('Finished')
-      );
+      error => console.log(error));
   }
 
 
