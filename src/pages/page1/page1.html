@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Page One</ion-title>
+    <ion-title>Setup Domoticz Watcher</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -29,8 +29,8 @@
 <ion-list>
  
   <ion-item *ngFor="let item of deviceList ">
-    <h2>{{item.Name}}</h2>
-    <ion-note>{{item.Data}} </ion-note>
+    <h2>Number of devices found</h2>
+    <ion-note>{{deviceList.length}} </ion-note>
   </ion-item>
 
 </ion-list>

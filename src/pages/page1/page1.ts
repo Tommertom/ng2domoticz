@@ -1,5 +1,3 @@
-import { DomoticzDeviceModel } from './../../../../Domey/src/models/domoticzdevice.model';
-
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +18,7 @@ const defaultSettings = {
   server: '192.168.178.33',
   protocol: 'http://',
   port: '8080',
-  refreshdelay: 10000
+  refreshdelay: 1000
 };
 
 @Component({
@@ -29,12 +27,11 @@ const defaultSettings = {
 })
 export class Page1 {
 
-  domoticzIP: string = "192.168.178.33";
-  domoticzPort: string = "8080";
-  //observable: Observable<Object>;
-  deviceList: Array<Object> = [];
-  idxList: Array<number> = [];
-  subscription: any;
+  deviceList: Array<string> = [];
+  deviceData: Object = {};
+  //  idxList: Array<number> = [];
+
+  deviceSubscription: any;
   settings: DomoticzSettingsModel = defaultSettings;
 
   constructor(
@@ -43,37 +40,28 @@ export class Page1 {
     private toastCtrl: ToastController
   ) { }
 
-
-
   startObserving() {
-    // let stuff: any = this.domoticzService.domoticzNumbers();
+    this.domoticzService.initDomoticzService(this.settings);
 
-    //console.log('this obser', this.observable);
-    //this.observable = this.domoticzService.getDomoticzDeviceObservable(defaultSettings);
-    //console.log('this obser', this.observable);
-    /*
-        let prut = this.domoticzService.domoticzNumbers().toArray().subscribe(
-          value => {
-            console.log('arr', value);
-          },
-          error => console.log('arr', error),
-          () => console.log('Finished arr')
-    
-        );
-    
-    */
+    // set the initial list
     this.deviceList = [];
 
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-      console.log('unsub');
+    // if we already observed stuff, then undo the subscription
+    if (this.deviceSubscription !== undefined) {
+      this.deviceSubscription.unsubscribe();
+      // console.log('unsub');
     }
 
-    this.subscription = this.domoticzService.getDomoticzDeviceObservable(defaultSettings)
+    // and start observing again
+    this.deviceSubscription = this.domoticzService.getDomoticzDeviceObservable()
       .subscribe(
       value => {
-        // if the device is already found, then don't add it, but replace the element in the list
-        this.deviceList.push(value);
+
+        // if the device is already found, then don't add it
+        if (this.deviceList.indexOf(value['idx']) == -1) this.deviceList.push(value['idx']);
+
+        // and replace the data
+        this.deviceData[value['idx']] = value;
       },
 
       error => console.log(error),

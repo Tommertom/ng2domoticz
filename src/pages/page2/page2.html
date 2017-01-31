@@ -3,21 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Page Two</ion-title>
+    <ion-title>Domoticz Devices</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-card *ngFor="let idx of deviceList">
+    {{ deviceData[idx].Name}} {{deviceData[idx].Name}}
+  </ion-card>
+  <ion-card *ngIf="deviceList.length == 0">
+    No devices found
+  </ion-card>
 </ion-content>
