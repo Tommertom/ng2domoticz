@@ -20,10 +20,10 @@ Provided under Apache2 License.
 * Install the ionic CLI and Cordova (`npm install -g ionic@latest cordova@latest`) - although Cordova is not used (yet)
 * Run `ionic serve` in a terminal from the project root.
 
-Due to cross-origin restrictions, this actually won't work in a browser. So you need to `ionic run android` or `ionic run ios` to a device 
+Due to cross-origin restrictions, this may not work in a browser (although it does with me). So you may need to `ionic run android` or `ionic run ios` to a device 
 or upload in ionic view to see it working. 
 
-This demo is available in Ionic View under app ID `96ecbaf2`. Download Ionic View in your app store (android/iOS), register free 
+This demo is available in Ionic View (similar to Apple's Testflight) under app ID `96ecbaf2`. Download Ionic View in your app store (android/iOS), register free 
 Ionic account (https://apps.ionic.io/signup) and enjoy. Assure you do a `Clear App Data` in Ionic View
 if you want to enjoy the latest committed version.
 
