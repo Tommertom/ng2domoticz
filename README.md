@@ -6,7 +6,9 @@ Including API calls to alter some aspects of the server (not all).
 Wrapped in Ionic 2 demo app (sidemenu).
 
 ## Todo
-* initial service needs to be added (nothing there yet)
+* Fix UI (demo app) issues around range and toggles
+* Add services (panel, scene)
+* Error handling (if wrong server is added, no response, wrong response)
 
 ## Important!
 Use at own discretion, but if you have any suggestion, let me know or do a PR. 
