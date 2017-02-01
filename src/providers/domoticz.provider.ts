@@ -37,12 +37,31 @@ export class DomoticzService {
     /**
        * Get observable to watch Domoticz Device data
        * 
-       * @param {DomoticzSettingsModel} settings - The settings to be used for the serve to address
        */
     getDomoticzDeviceObservable() {
 
         // return the observable
         return this.devices.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
+    }
+
+    /**
+       * Get observable to watch Domoticz Scenes data
+       * 
+       */
+    getDomoticzSceneObservable() {
+
+        // return the observable
+        return this.scenes.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
+    }
+
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
+    getDomoticzPlanObservable() {
+
+        // return the observable
+        return this.plans.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
     }
 
     doneDomoticzService() {
@@ -209,7 +228,7 @@ export class DomoticzService {
                 this.scenes.next(item);
             }, (err) => {
                 console.log('Error in emitAllScenes', err);
-                this.devices.next({ error: err });
+                this.scenes.next({ error: err });
             });
     }
 
@@ -226,10 +245,10 @@ export class DomoticzService {
             .map(res => res.json())
             .mergeMap(res => res['result'])
             .subscribe(item => {
-                this.scenes.next(item);
+                this.plans.next(item);
             }, (err) => {
                 console.log('Error in emitAllPlans', err);
-                this.devices.next({ error: err });
+                this.plans.next({ error: err });
             });
     }
 }
