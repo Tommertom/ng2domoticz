@@ -15,7 +15,7 @@
     </ion-card-header>
     <ion-card-content>
       <button ion-button full *ngIf="canToggle(deviceData[idx])" (click)="doToggle(idx)">Let's toggle</button>
-      <ion-range *ngIf="isDimmable(deviceData[idx])" (ionChange)="doLevelChange($event, idx)" debounce="1000" min="15" max="deviceData[idx].MaxDimLevel">
+      <ion-range *ngIf="isDimmable(deviceData[idx])" [(ngModel)]="deviceData[idx].Level" (ionChange)="doLevelChange($event, idx)" debounce="1000" min="15" max="deviceData[idx].MaxDimLevel">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>{{deviceData[idx].MaxDimLevel}}</ion-label>
       </ion-range>
@@ -24,6 +24,11 @@
   <ion-card *ngIf="deviceList.length == 0">
     <ion-card-content>
       <h1>No devices found</h1>
+
+      <ion-range (ionChange)="doLevelChange($event, '22')" debounce="1000" min="15" max="100">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>100</ion-label>
+      </ion-range>
     </ion-card-content>
   </ion-card>
 </ion-content>

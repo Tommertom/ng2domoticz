@@ -1,16 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-//import { Observable } from 'rxjs/Observable';
-
-//import { Observer } from 'rxjs/Observer';
-//import { Injectable } from '@angular/core';
-//import { Http } from '@angular/http';
-//import { BehaviorSubject } from "rxjs/Rx";
-
-import { DomoticzTestService, DomoticzSettingsModel } from './../../providers/domoticz.provider';
-
-//import 'rxjs/add/operator/mergeMap';
-//import 'rxjs/add/operator/map';
+import { DomoticzService, DomoticzSettingsModel } from './../../providers/domoticz.provider';
 
 const defaultSettings = {
   server: '192.168.178.33',
@@ -34,7 +24,7 @@ export class Page1 {
 
   constructor(
     public navCtrl: NavController,
-    public domoticzService: DomoticzTestService,
+    public domoticzService: DomoticzService,
     private toastCtrl: ToastController
   ) { }
 
@@ -68,7 +58,7 @@ export class Page1 {
           this.domoticzService.doneDomoticzService();
           this.deviceSubscription.unsubscribe();
 
-          this.doToast('There was an issue accessing Domoticz' + value.toString());
+          this.doToast('There was an issue accessing the Domoticz server' + value.toString());
         }
 
         // and replace the data

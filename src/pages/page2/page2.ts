@@ -1,6 +1,7 @@
+import { UserData } from './../../../../ionic-conference-app-master/src/providers/user-data';
 import { Component } from '@angular/core';
 import { ToastController, NavController } from 'ionic-angular';
-import { DomoticzTestService } from './../../providers/domoticz.provider';
+import { DomoticzService } from './../../providers/domoticz.provider';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class Page2 {
 
   constructor(
     public navCtrl: NavController,
-    public domoticzService: DomoticzTestService,
+    public domoticzService: DomoticzService,
     private toastCtrl: ToastController
   ) { }
 
@@ -70,7 +71,7 @@ export class Page2 {
 
   doLevelChange(event, idx) {
     console.log('levelchange', event.value);
-    this.domoticzService.setDeviceDimLevel(idx, event.value);
+  //  this.domoticzService.setDeviceDimLevel(idx, event.value);
   }
 
   /**
@@ -93,3 +94,4 @@ export class Page2 {
   }
 
 }
+
