@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-//import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from "rxjs/Rx";
 
 //
@@ -67,7 +66,7 @@ export class DomoticzService {
             .subscribe(
             () => { },
             () => { this.emitOneDevice(idx) },
-            () => { console.log('ok, dim'); this.emitOneDevice(idx) });
+            () => { this.emitOneDevice(idx) });
     }
 
 
@@ -78,7 +77,7 @@ export class DomoticzService {
             .subscribe(
             () => { },
             () => { this.emitOneDevice(idx) },
-            () => { console.log('ok, dim'); this.emitOneDevice(idx) });
+            () => { this.emitOneDevice(idx) });
     }
 
     // http://192.168.178.33:8080/json.htm?type=command&param=setsetpoint&idx=18&setpoint=10
@@ -95,7 +94,7 @@ export class DomoticzService {
 
     switchDeviceOff(idx) {
         this.callAPI(
-            '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=On',
+            '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Off',
             { '[IDX]': idx })
             .subscribe(
             () => { },
@@ -115,7 +114,7 @@ export class DomoticzService {
 
     switchSceneOff(idx) {
         this.callAPI(
-            '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=On',
+            '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=Off',
             { '[IDX]': idx })
             .subscribe(
             () => { },
@@ -133,7 +132,7 @@ export class DomoticzService {
     // all private methods follow here
     //
     private callAPI(api, payload) {
-        // do a search-replace of all the update data available and then do the HTTP request
+        // do a search-replace of all the update data available and then do the HTTP request, 
         for (var key in payload)
             api = api.replace(key, payload[key]); // should do this until all occurences as gone, TODO
 
