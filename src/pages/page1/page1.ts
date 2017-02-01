@@ -6,7 +6,7 @@ const defaultSettings = {
   server: '192.168.178.33',
   protocol: 'http://',
   port: '8080',
-  refreshdelay: 5000
+  refreshdelay: 50000
 };
 
 @Component({
@@ -29,7 +29,7 @@ export class Page1 {
   ) { }
 
   ngOnInit() {
-    this.domoticzService.initDomoticzService(this.settings); // to avoid issues when going to Page2 without startObserving
+    //this.domoticzService.initDomoticzService(this.settings); // to avoid issues when going to Page2 without startObserving
   }
 
   startObserving() {
@@ -58,7 +58,7 @@ export class Page1 {
           this.domoticzService.doneDomoticzService();
           this.deviceSubscription.unsubscribe();
 
-          this.doToast('There was an issue accessing the Domoticz server' + value.toString());
+          this.doToast('There was an issue accessing the Domoticz server');
         }
 
         // and replace the data

@@ -19,6 +19,7 @@
     </ion-item>
     <ion-item>
       <h2>Number of devices found : {{deviceList.length}} </h2>
+      <p *ngIf="deviceList.length>0"> Go to menu to see the devices found</p>
     </ion-item>
   </ion-list>
   <button ion-button full (click)="startObserving()">Start observing devices</button>

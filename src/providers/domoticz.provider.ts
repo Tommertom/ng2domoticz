@@ -5,12 +5,18 @@ import { BehaviorSubject } from "rxjs/Rx";
 //
 // Based on https://coryrylan.com/blog/angular-observable-data-services
 //
+//return this.createMarkerStyle(<MarkerSymbolInfo> symbolInfo); reateStyle( symbolInfo : SymbolInfo)
+//// Original syntax
+//var markerSymbolInfo = <MarkerSymbolInfo> symbolInfo;
+
+// Newer additional syntax
+//var markerSymbolInfo = symbolInfo as MarkerSymbolInfo;
 
 export interface DomoticzSettingsModel {
     server: string;             // IP adress
     port: string;               // number as a string, with no colon ('8080')
     protocol: string;           // https:// or http://
-    refreshdelay: number; // the ms to wait before a full refresh
+    refreshdelay: number;       // the ms to wait before a full refresh
 }
 
 @Injectable()
@@ -24,14 +30,13 @@ export class DomoticzService {
 
     constructor(private http: Http) { };
 
-
     initDomoticzService(settings) {
         // check the settings
         this.settings = settings;
 
         // start refreshing
         this.doRefresh = true;
-        this.doDomoticzRefresh();
+        this.repeatDomoticzRefresh();
     }
 
     /**
@@ -39,6 +44,7 @@ export class DomoticzService {
        * 
        */
     getDomoticzDeviceObservable() {
+        this.refreshDomoticz()
 
         // return the observable
         return this.devices.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
@@ -49,6 +55,7 @@ export class DomoticzService {
        * 
        */
     getDomoticzSceneObservable() {
+        this.refreshDomoticz()
 
         // return the observable
         return this.scenes.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
@@ -59,15 +66,24 @@ export class DomoticzService {
        * 
        */
     getDomoticzPlanObservable() {
+        this.refreshDomoticz()
 
         // return the observable
         return this.plans.asObservable().skip(1); // hack? need to skip the first item emitted due to the creation
     }
 
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     doneDomoticzService() {
         this.doRefresh = false;
     }
 
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     toggleDevice(idx) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Toggle',
@@ -78,6 +94,10 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     setDeviceDimLevel(idx, level) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Set%20Level&level=[LEVEL]',
@@ -89,6 +109,10 @@ export class DomoticzService {
     }
 
 
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     setDeviceSetPoint(idx, setpoint) {
         this.callAPI(
             '/json.htm?type=command&param=setsetpoint&idx=[IDX]&setpoint=[SETPOINT]',
@@ -99,8 +123,10 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
-    // http://192.168.178.33:8080/json.htm?type=command&param=setsetpoint&idx=18&setpoint=10
-
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     switchDeviceOn(idx) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=On',
@@ -111,6 +137,10 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
+    /**
+       * Get observable to watch Domoticz Plan data
+       * 
+       */
     switchDeviceOff(idx) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Off',
@@ -121,6 +151,10 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
+    /**
+       * Switch a scene on
+       * 
+       */
     switchSceneOn(idx) {
         this.callAPI(
             '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=On',
@@ -131,6 +165,10 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
+    /**
+       * Switch a scene of
+       * 
+       */
     switchSceneOff(idx) {
         this.callAPI(
             '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=Off',
@@ -141,16 +179,28 @@ export class DomoticzService {
             () => { this.emitOneDevice(idx) });
     }
 
+    /**
+       * Add message to the log
+       * 
+       */
     addLog(message) {
         this.callAPI(
             '/json.htm?type=command&param=addlogmessage&message=[MESSAGE]',
             { '[MESSAGE]': message });
     }
 
+    refreshDomoticz() {
+        this.emitAllDevices();
+        this.emitAllPlans();
+        this.emitAllScenes();
+    }
+
+    //
     //
     // all private methods follow here
     //
-    private callAPI(api, payload) {
+    //
+    private callAPI(api :string, payload:Object) {
         // do a search-replace of all the update data available and then do the HTTP request, 
         for (var key in payload)
             api = api.replace(key, payload[key]); // should do this until all occurences as gone, TODO
@@ -163,19 +213,28 @@ export class DomoticzService {
             this.settings.port + api);
     }
 
-
-    private doDomoticzRefresh() {
+    private repeatDomoticzRefresh() {
 
         // refresh all observables
-        this.emitAllDevices();
-        this.emitAllPlans();
-        this.emitAllScenes();
+        this.refreshDomoticz();
 
         //and repeat yourself if needed
         if (this.doRefresh)
             setTimeout(() => {
-                this.doDomoticzRefresh()
+                this.repeatDomoticzRefresh()
             }, this.settings.refreshdelay);
+    }
+
+    private doHTTPForSubject(url: string, subject: BehaviorSubject<Object>) {
+        this.http.get(url)
+            .map(res => res.json())
+            .mergeMap(res => res['result'])
+            .subscribe(item => {
+                subject.next(item);
+            }, (err) => {
+                console.log('Error in doHTTPForSubject', url, err);
+                this.devices.next({ error: err });
+            });
     }
 
     private emitAllDevices() {
@@ -184,7 +243,10 @@ export class DomoticzService {
             this.settings.port +
             '/json.htm?type=devices&used=true&order=Name';
 
+        this.doHTTPForSubject(url, this.devices);
+
         // get the data from domoticz            
+        /*
         this.http.get(url)
             .map(res => res.json())
             .mergeMap(res => res['result'])
@@ -194,6 +256,8 @@ export class DomoticzService {
                 console.log('Error in emitAllDevices', err);
                 this.devices.next({ error: err });
             });
+
+            */
     }
 
     private emitOneDevice(idx) {
@@ -202,7 +266,9 @@ export class DomoticzService {
             this.settings.port +
             '/json.htm?type=devices&rid=' + idx;
 
+        this.doHTTPForSubject(url, this.devices);
         // get the data from domoticz            
+        /*
         this.http.get(url)
             .map(res => res.json())
             .mergeMap(res => res['result'])
@@ -212,6 +278,7 @@ export class DomoticzService {
                 console.log('Error in emitOneDevice', err);
                 this.devices.next({ error: err });
             });
+            */
     }
 
     private emitAllScenes() {
@@ -220,7 +287,10 @@ export class DomoticzService {
             this.settings.port +
             '/json.htm?type=scenes';
 
+        this.doHTTPForSubject(url, this.scenes);
+
         // get the data from domoticz            
+        /*
         this.http.get(url)
             .map(res => res.json())
             .mergeMap(res => res['result'])
@@ -230,6 +300,8 @@ export class DomoticzService {
                 console.log('Error in emitAllScenes', err);
                 this.scenes.next({ error: err });
             });
+
+            */
     }
 
     // TODO: enrich plan data with array of device IDX linked to the plan
@@ -240,8 +312,10 @@ export class DomoticzService {
             this.settings.port +
             '/json.htm?type=plans&order=name&used=true';
 
+        this.doHTTPForSubject(url, this.plans);
+
         // get the data from domoticz            
-        this.http.get(url)
+        /* this.http.get(url)
             .map(res => res.json())
             .mergeMap(res => res['result'])
             .subscribe(item => {
@@ -250,6 +324,8 @@ export class DomoticzService {
                 console.log('Error in emitAllPlans', err);
                 this.plans.next({ error: err });
             });
+
+            */
     }
 }
 

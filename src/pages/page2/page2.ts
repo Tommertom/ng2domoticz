@@ -1,4 +1,3 @@
-import { UserData } from './../../../../ionic-conference-app-master/src/providers/user-data';
 import { Component } from '@angular/core';
 import { ToastController, NavController } from 'ionic-angular';
 import { DomoticzService } from './../../providers/domoticz.provider';
@@ -52,26 +51,36 @@ export class Page2 {
   }
 
   isDimmable(device) {
-    return (device['HaveDimmer'] == true) && ( device['MaxDimLevel']!= 0)
+    return (device['HaveDimmer'] == true) && (device['MaxDimLevel'] != 0)
   }
 
-  canToggle(device){
+  canToggle(device) {
     return (device['SwitchType'] == 'On/Off');
   }
 
-//http://192.168.178.33:8080/json.htm?type=command&param=switchlight&idx=34&switchcmd=Set%20Level&level=69
   canSetTemp(device) {
     return (device['SubType'] == "SetPoint");
   }
 
   doToggle(idx) {
-//    console.log('Toggle', idx);
+    //    console.log('Toggle', idx);
     this.domoticzService.toggleDevice(idx);
   }
 
+doOnOff(event,idx) {
+  console.log('On/off', event, event.checked, idx);
+  if (event.checked) this.domoticzService.switchDeviceOn(idx)
+  else this.domoticzService.switchSceneOff(idx);
+}
+
   doLevelChange(event, idx) {
-    console.log('levelchange', event.value);
-  //  this.domoticzService.setDeviceDimLevel(idx, event.value);
+    console.log('levelchange', event, idx, this.deviceList);
+    this.domoticzService.setDeviceDimLevel(idx, event.value);
+  }
+
+  doSetPointChange(event, idx) {
+    console.log('setpointchange', event, idx, this.deviceList);
+    this.domoticzService.setDeviceSetPoint(idx, event.value);
   }
 
   /**
