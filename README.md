@@ -10,6 +10,7 @@ Wrapped in Ionic 2 demo app (sidemenu).
 * Add services and methods (panel, scene)
 * Error handling (if wrong server is added, no response, wrong response)
 * Documentation and comments
+* Create automated tests
 
 ## Getting Started
 * Install Node.JS and npm (https://nodejs.org/en/download/), as well as git (https://git-scm.com/downloads)
