@@ -7,13 +7,9 @@ Wrapped in Ionic 2 demo app (sidemenu).
 
 ## Todo
 * Fix UI (demo app) issues around range and toggles
-* Add services (panel, scene)
+* Add services and methods (panel, scene)
 * Error handling (if wrong server is added, no response, wrong response)
-
-## Important!
-Use at own discretion, but if you have any suggestion, let me know or do a PR. 
-
-Provided under Apache2 License.
+* Documentation and comments
 
 ## Getting Started
 * Install Node.JS and npm (https://nodejs.org/en/download/), as well as git (https://git-scm.com/downloads)
@@ -49,6 +45,23 @@ getDomoticzPanelObservable()  : panels
 getDomoticzSceneObservable()  : scenes
 ```
 * Using RxJS operators, you can manipulate the datastream and subscribe for actions
+* Using `refreshDomoticz()` you can force a refresh of all data being observed
 * When you want to stop the service from working, do a `doneDomoticzService()`.
 
+There are a number of of methods in the service you can use to send actions to Domoticz:
+```
+toggleDevice(idx: string)
+setDeviceDimLevel(idx: string, level: number)
+setDeviceSetPoint(idx: string, setpoint: number)
+switchDeviceOn(idx: string)
+switchDeviceOff(idx: string)
+switchSceneOn(idx: string)
+switchSceneOff(idx: string)
+addLog(message: string)
+```
+Where `idx` is the unique id of the device as found  in Domoticz in `idx` field.
 
+## Important!
+Use at own discretion, but if you have any suggestion, let me know or do a PR. 
+
+Provided under Apache2 License.

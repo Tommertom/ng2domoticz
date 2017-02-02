@@ -39,6 +39,12 @@ export class DomoticzService {
         this.repeatDomoticzRefresh();
     }
 
+    refreshDomoticz() {
+        this.emitAllDevices();
+        this.emitAllPlans();
+        this.emitAllScenes();
+    }
+
     /**
        * Get observable to watch Domoticz Device data
        * 
@@ -84,7 +90,7 @@ export class DomoticzService {
        * Get observable to watch Domoticz Plan data
        * 
        */
-    toggleDevice(idx) {
+    toggleDevice(idx: string) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Toggle',
             { '[IDX]': idx })
@@ -98,7 +104,7 @@ export class DomoticzService {
        * Get observable to watch Domoticz Plan data
        * 
        */
-    setDeviceDimLevel(idx, level) {
+    setDeviceDimLevel(idx: string, level: number) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Set%20Level&level=[LEVEL]',
             { '[IDX]': idx, '[LEVEL]': level })
@@ -113,7 +119,7 @@ export class DomoticzService {
        * Get observable to watch Domoticz Plan data
        * 
        */
-    setDeviceSetPoint(idx, setpoint) {
+    setDeviceSetPoint(idx: string, setpoint: number) {
         this.callAPI(
             '/json.htm?type=command&param=setsetpoint&idx=[IDX]&setpoint=[SETPOINT]',
             { '[IDX]': idx, '[SETPOINT]': setpoint })
@@ -127,7 +133,7 @@ export class DomoticzService {
        * Get observable to watch Domoticz Plan data
        * 
        */
-    switchDeviceOn(idx) {
+    switchDeviceOn(idx: string) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=On',
             { '[IDX]': idx })
@@ -141,7 +147,7 @@ export class DomoticzService {
        * Get observable to watch Domoticz Plan data
        * 
        */
-    switchDeviceOff(idx) {
+    switchDeviceOff(idx: string) {
         this.callAPI(
             '/json.htm?type=command&param=switchlight&idx=[IDX]&switchcmd=Off',
             { '[IDX]': idx })
@@ -155,7 +161,7 @@ export class DomoticzService {
        * Switch a scene on
        * 
        */
-    switchSceneOn(idx) {
+    switchSceneOn(idx: string) {
         this.callAPI(
             '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=On',
             { '[IDX]': idx })
@@ -169,7 +175,7 @@ export class DomoticzService {
        * Switch a scene of
        * 
        */
-    switchSceneOff(idx) {
+    switchSceneOff(idx: string) {
         this.callAPI(
             '/json.htm?type=command&param=switchscene&idx=[IDX]&switchcmd=Off',
             { '[IDX]': idx })
@@ -183,24 +189,19 @@ export class DomoticzService {
        * Add message to the log
        * 
        */
-    addLog(message) {
+    addLog(message: string) {
         this.callAPI(
             '/json.htm?type=command&param=addlogmessage&message=[MESSAGE]',
             { '[MESSAGE]': message });
     }
 
-    refreshDomoticz() {
-        this.emitAllDevices();
-        this.emitAllPlans();
-        this.emitAllScenes();
-    }
 
     //
     //
     // all private methods follow here
     //
     //
-    private callAPI(api :string, payload:Object) {
+    private callAPI(api: string, payload: Object) {
         // do a search-replace of all the update data available and then do the HTTP request, 
         for (var key in payload)
             api = api.replace(key, payload[key]); // should do this until all occurences as gone, TODO
