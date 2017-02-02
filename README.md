@@ -54,6 +54,8 @@ and will continue so until the service is stopped or the app killed.  This means
 will send initial data whenever you get the Observable and will only do a `complete()` when explicitly ended. The latter
 means that some of the RxJS operators (e.g. `toArray()`) won't give any results until the service is stopped.
 
+When the service has encountered an error, it will emit `{ error: err }`, where `err` stands for the error object taken from the HTTP Response.
+
 There are a number of of methods in the service you can use to send actions to Domoticz:
 ```
 toggleDevice(idx: string)

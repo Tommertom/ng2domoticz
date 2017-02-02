@@ -240,7 +240,7 @@ export class DomoticzService {
                 subject.next(item);
             }, (err) => {
                 console.log('Error in doHTTPForSubject', url, err);
-                this.devices.next({ error: err });
+                subject.next({ error: err });
             });
     }
 
