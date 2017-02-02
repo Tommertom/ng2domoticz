@@ -68,9 +68,6 @@ export class Page1 {
       error => console.log(error));
   }
 
-
-
-
   /**
    * Do a toast message.
    * 
@@ -84,7 +81,7 @@ export class Page1 {
     });
 
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
+//      console.log('Dismissed toast');
     });
 
     toast.present();

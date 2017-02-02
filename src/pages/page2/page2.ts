@@ -9,6 +9,8 @@ import { DomoticzService } from './../../providers/domoticz.provider';
 })
 export class Page2 {
 
+
+// ShowRGBWPopupInt
   deviceList: Array<string> = [];
   deviceData: Object = {};
 
