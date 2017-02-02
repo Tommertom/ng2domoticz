@@ -206,7 +206,7 @@ export class DomoticzService {
         for (var key in payload)
             api = api.replace(key, payload[key]); // should do this until all occurences as gone, TODO
 
-        console.log('API call', api, payload);
+        //console.log('API call', api, payload);
 
         return this.http.get(
             this.settings.protocol +
@@ -245,20 +245,6 @@ export class DomoticzService {
             '/json.htm?type=devices&used=true&order=Name';
 
         this.doHTTPForSubject(url, this.devices);
-
-        // get the data from domoticz            
-        /*
-        this.http.get(url)
-            .map(res => res.json())
-            .mergeMap(res => res['result'])
-            .subscribe(item => {
-                this.devices.next(item);
-            }, (err) => {
-                console.log('Error in emitAllDevices', err);
-                this.devices.next({ error: err });
-            });
-
-            */
     }
 
     private emitOneDevice(idx) {
@@ -268,18 +254,6 @@ export class DomoticzService {
             '/json.htm?type=devices&rid=' + idx;
 
         this.doHTTPForSubject(url, this.devices);
-        // get the data from domoticz            
-        /*
-        this.http.get(url)
-            .map(res => res.json())
-            .mergeMap(res => res['result'])
-            .subscribe(item => {
-                this.devices.next(item);
-            }, (err) => {
-                console.log('Error in emitOneDevice', err);
-                this.devices.next({ error: err });
-            });
-            */
     }
 
     private emitAllScenes() {
@@ -289,20 +263,6 @@ export class DomoticzService {
             '/json.htm?type=scenes';
 
         this.doHTTPForSubject(url, this.scenes);
-
-        // get the data from domoticz            
-        /*
-        this.http.get(url)
-            .map(res => res.json())
-            .mergeMap(res => res['result'])
-            .subscribe(item => {
-                this.scenes.next(item);
-            }, (err) => {
-                console.log('Error in emitAllScenes', err);
-                this.scenes.next({ error: err });
-            });
-
-            */
     }
 
     // TODO: enrich plan data with array of device IDX linked to the plan
@@ -314,19 +274,6 @@ export class DomoticzService {
             '/json.htm?type=plans&order=name&used=true';
 
         this.doHTTPForSubject(url, this.plans);
-
-        // get the data from domoticz            
-        /* this.http.get(url)
-            .map(res => res.json())
-            .mergeMap(res => res['result'])
-            .subscribe(item => {
-                this.plans.next(item);
-            }, (err) => {
-                console.log('Error in emitAllPlans', err);
-                this.plans.next({ error: err });
-            });
-
-            */
     }
 }
 
