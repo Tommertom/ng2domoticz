@@ -178,7 +178,7 @@ export class DomoticzService {
     }
 
     /**
-       * Switch a scene of
+       * Switch a scene off
        * 
        */
     switchSceneOff(idx: string) {
