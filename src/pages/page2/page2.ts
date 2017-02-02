@@ -9,8 +9,6 @@ import { DomoticzService } from './../../providers/domoticz.provider';
 })
 export class Page2 {
 
-
-// ShowRGBWPopupInt
   deviceList: Array<string> = [];
   deviceData: Object = {};
 
@@ -65,7 +63,7 @@ export class Page2 {
   }
 
   doToggle(idx) {
-    //    console.log('Toggle', idx);
+    console.log('Toggle', idx);
     this.domoticzService.toggleDevice(idx);
   }
 
