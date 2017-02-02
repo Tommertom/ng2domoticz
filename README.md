@@ -48,6 +48,11 @@ getDomoticzSceneObservable()  : scenes
 * Using `refreshDomoticz()` you can force a refresh of all data being observed
 * When you want to stop the service from working, do a `doneDomoticzService()`.
 
+Please note, the service emits one value per device/scene/plan, and the full set when you get the observer 
+and will continue so until the service is stopped or the app killed.  This means the stream is hot from the start, 
+will send initial data whenever you get the Observable and will only do a `complete()` when explicitly ended. The latter
+means that some of the RxJS operators (e.g. `toArray()`) won't give any results until the service is stopped.
+
 There are a number of of methods in the service you can use to send actions to Domoticz:
 ```
 toggleDevice(idx: string)

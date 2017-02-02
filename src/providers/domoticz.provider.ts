@@ -83,7 +83,13 @@ export class DomoticzService {
        * 
        */
     doneDomoticzService() {
+        // stop pulling data
         this.doRefresh = false;
+
+        // and finish the streams
+        this.devices.complete();
+        this.plans.complete();
+        this.scenes.complete();
     }
 
     /**
